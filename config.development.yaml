@@ -1,0 +1,4 @@
+port: 8986
+workers: 12
+log_level: info
+api_key: key-1l45u03wxd
