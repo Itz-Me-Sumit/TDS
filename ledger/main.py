@@ -29,6 +29,7 @@ Output schema:
  "limit": null or integer}
 
 Rules:
+- "in USD" / "in dollars" only states the unit of the answer. NEVER set filters.currency for it. Set filters.currency only if the question explicitly asks about orders placed or paid in a specific currency (for example "USD orders", "orders paid in EUR").
 - Include only the filters the question mentions. Use exact names from the lists above.
 - "revenue"/"sales" = metric revenue (paid orders only, default). "refunds"/"refunded amount" = metric refunds. "net revenue" = net_revenue.
 - "how many orders" = metric orders. "how many refunded orders" = metric orders with status ["refunded"].
@@ -88,6 +89,9 @@ async def ask(request: Request):
         return {"answer": None, "error": "bad request"}
     try:
         spec = ask_llm(question)
+        import re
+        if not re.search(r"\b(usd|eur|inr)\s+(orders?|transactions?|sales)|(orders?|transactions?)\s+(placed|paid|made)?\s*in\s+(usd|eur|inr)\b", question, re.I):
+            (spec.get("filters") or {}).pop("currency", None)
     except Exception as e:
         return {"answer": None, "error": "llm: " + str(e)[:200]}
     try:
