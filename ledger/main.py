@@ -91,6 +91,15 @@ async def ask(request: Request):
     except Exception as e:
         return {"answer": None, "error": "llm: " + str(e)[:200]}
     try:
-        return {"answer": ledger.query(spec)}
+        ans = ledger.query(spec)
+        if request.query_params.get("debug"):
+            return {"answer": ans, "spec": spec}
+        return {"answer": ans}
     except Exception as e:
         return {"answer": None, "error": "data: " + str(e)[:200]}
+
+
+@app.post("/query")
+async def run_query(request: Request):
+    spec = await request.json()
+    return {"answer": ledger.query(spec)}
