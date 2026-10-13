@@ -61,7 +61,7 @@ def ask_llm(question):
     req = urllib.request.Request(
         LLM_URL,
         data=json.dumps(body).encode("utf-8"),
-        headers={"Content-Type": "application/json", "Authorization": "Bearer " + TOKEN},
+        headers={"Content-Type": "application/json", "Authorization": "Bearer " + TOKEN, "User-Agent": "Mozilla/5.0"},
     )
     with urllib.request.urlopen(req, timeout=10) as r:
         data = json.loads(r.read().decode("utf-8"))
@@ -88,6 +88,9 @@ async def ask(request: Request):
         return {"answer": None, "error": "bad request"}
     try:
         spec = ask_llm(question)
+    except Exception as e:
+        return {"answer": None, "error": "llm: " + str(e)[:200]}
+    try:
         return {"answer": ledger.query(spec)}
     except Exception as e:
-        return {"answer": None, "error": str(e)[:200]}
+        return {"answer": None, "error": "data: " + str(e)[:200]}
