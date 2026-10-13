@@ -9,8 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import ledger
 
 TOKEN = os.environ.get("AIPIPE_TOKEN", "")
-MODEL = os.environ.get("LLM_MODEL", "openai/gpt-4.1-mini")
-LLM_URL = "https://aipipe.org/openrouter/v1/chat/completions"
+MODEL = "gpt-4.1-mini"
+LLM_URL = "https://aipipe.org/openai/v1/chat/completions"
 
 SYSTEM = """You convert a plain-English question about an order ledger into a JSON query spec. Reply with JSON only, no prose.
 
