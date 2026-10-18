@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 
 EMAIL = "24f3000446@ds.study.iitm.ac.in"
 ALLOWED_ORIGIN = "https://app-0kzs38.example.com"
-EXAM_ORIGIN = "https://ASLI-EXAM-DOMAIN-YAHAN"
+EXAM_ORIGIN = "https://exam.sanand.workers.dev"
 RATE_LIMIT = 15
 WINDOW_SECONDS = 10
 
